@@ -2,7 +2,6 @@
   <div>
     <div class="vux-demo">
       <img class="logo" src="../assets/vux_logo.png">
-      <h1>省钱艺术家</h1>
     </div>
 
     <view-box ref="viewBox" body-padding-top="46px">
@@ -14,7 +13,7 @@
           </group>
         </form>
         <box gap="10px 10px">
-          <x-button type="primary" @click.native="trans()">转换</x-button>
+          <x-button type="primary" @click.native="convert()">转换</x-button>
         </box>
         <group title="结果" label-width="4.5em" label-margin-right="2em" label-align="right">
           <x-textarea title="" v-model="myResult"></x-textarea>
@@ -22,7 +21,6 @@
         <box gap="10px 10px">
           <x-button class="copy-code-button" :data-clipboard-text="myResult" type="warn" @click.native="oneKeyCopy()">一键复制</x-button>
         </box>
-        <toast v-model="showPositionValue" type="text" :time="800" is-show-mask text="复制成功" :position="position"></toast>
       </div>
     </view-box>
 
@@ -30,7 +28,7 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem, Group, Cell, Alert, ViewBox, XHeader, XInput, XButton, Box, XTextarea, Toast } from 'vux'
+import { Tabbar, TabbarItem, Group, Cell, Alert, ViewBox, XHeader, XInput, XButton, Box, XTextarea } from 'vux'
 import axios from 'axios'
 import Global from '@/components/Global.vue'
 import Clipboard from 'clipboard'
@@ -49,20 +47,17 @@ export default {
     XInput,
     XButton,
     Box,
-    XTextarea,
-    Toast
+    XTextarea
   },
   data () {
     return {
       reqParam: {},
-      myResult: '',
-      position: 'center',
-      showPositionValue: false
+      myResult: ''
     }
   },
   methods: {
     // 保存修改密码信息
-    trans () {
+    convert () {
       let userData = {
         oriString: this.reqParam.oriString,
         targetString: this.reqParam.targetString
@@ -75,9 +70,17 @@ export default {
         },
         data: userData,
         url: Global.serverUrl + '/taopassword/convert'
-      }).then((data) => {
-        console.log(data)
-        this.myResult = data.data
+      }).then((response) => {
+        console.log(response)
+        console.log(response.data)
+        if (response.data.code !== '0') {
+          this.$vux.toast.show({
+            text: response.data.message,
+            type: 'text'
+          })
+        } else {
+          this.myResult = response.data.data.convertResult
+        }
       }).catch(() => {
         // Indicator.close();
         // Toast({
@@ -89,9 +92,12 @@ export default {
     },
     // 保存修改密码信息
     oneKeyCopy () {
-      var clipboard = new Clipboard('.copy-code-button') // 这里可以理解为选择器，选择上面的复制按钮
+      let clipboard = new Clipboard('.copy-code-button') // 这里可以理解为选择器，选择上面的复制按钮
       clipboard.on('success', e => {
-        this.showPositionValue = true
+        this.$vux.toast.show({
+          text: '复制成功',
+          type: 'success'
+        })
         // 释放内存
         clipboard.destroy()
       })
@@ -110,14 +116,7 @@ export default {
   text-align: center;
 }
 .logo {
-  width: 100px;
-  height: 100px
-}
-.x-header {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 999;
-  width: 100%
+  width: 150px;
+  height: 150px
 }
 </style>
