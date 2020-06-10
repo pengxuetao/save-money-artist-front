@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="vux-demo">
-      <img class="logo" src="../assets/vux_logo.png" @click="easterEgg">
+      <img class="logo" src="../assets/frog.png" @click="easterEgg">
     </div>
 
     <view-box ref="viewBox">
@@ -117,7 +117,7 @@ export default {
       this.eggCount ++
       if (this.eggCount >= 5) {
         this.$vux.toast.show({
-          text: '喵~~~~~',
+          text: '呱~~~~~',
           type: 'text',
           position: 'top'
         })
