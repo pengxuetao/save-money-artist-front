@@ -1,58 +1,23 @@
 <template>
   <div style="height:100%;">
-    <view-box ref="viewBox" body-padding-bottom="55px">
+    <view-box ref="viewBox" body-padding-bottom="150px">
       <div>
-        <card :header="{title: '总收益'}">
-          <div slot="content" class="card-demo-flex card-demo-content01">
-            <div class="vux-1px-r">
-              <span>{{ summaryIncome.totalIncomeAmount }}</span>
-              <br/>
-              累计收益(元)
-            </div>
-            <div class="vux-1px-r">
-              <span>{{ summaryIncome.canDrawIncomeAmount }}</span>
-              <br/>
-              可提现收益(元)
-            </div>
-            <div class="vux-1px-r">
-              <span>{{ summaryIncome.drewIncomeAmount }}</span>
-              <br/>
-              已提现收益(元)
-            </div>
-            <div>
-              <span>{{ summaryIncome.generalizeCount }}</span>
-              <br/>
-              有效推广数量(个)
-            </div>
-          </div>
-        </card>
-        <group title="渠道收益">
-          <cell title="我的渠道" link="/channel/myChannel"></cell>
-          <cell title="我的收益" link="/income/incomeDetail"></cell>
+        <group title="设置">
+          <x-switch title="签名开关" :value-map="['0', '1']" v-model="signatureSwitch" @on-change="configSignatureSwitch"></x-switch>
         </group>
-        <!--<group>-->
-          <!--<group-title slot="title">我的渠道<x-button type="primary" style="float:right;" mini link="/channel/myChannel">查看详情</x-button></group-title>-->
-        <!--</group>-->
-        <!--<group>-->
-          <!--<group-title slot="title">我的收益<x-button type="primary" style="float:right;" mini link="/income/incomeDetail">查看详情</x-button></group-title>-->
-        <!--</group>-->
-        <group title="我的推广">
-          <cell title="我的商户码" is-link></cell>
-          <cell title="我的渠道链接" is-link></cell>
+        <group title="签名">
+          <cell title="签名1" is-link></cell>
+          <cell title="签名2" is-link></cell>
         </group>
       </div>
       <tabbar slot="bottom" class="tabbar" style="position: fixed">
-        <tabbar-item>
-          <img slot="icon" src="../../assets/icon_nav_msg.png">
-          <span slot="label">资讯</span>
+        <tabbar-item link="/">
+          <img slot="icon" src="../../assets/icon_nav_article.png">
+          <span slot="label">淘口令</span>
         </tabbar-item>
         <tabbar-item selected>
-          <img slot="icon" src="../../assets/icon_nav_article.png">
-          <span slot="label">收益</span>
-        </tabbar-item>
-        <tabbar-item link="/profile/myProfile">
           <img slot="icon" src="../../assets/icon_nav_cell.png">
-          <span slot="label">我的</span>
+          <span slot="label">设置</span>
         </tabbar-item>
       </tabbar>
     </view-box>
@@ -60,7 +25,7 @@
 </template>
 
 <script>
-import { ViewBox, Tabbar, TabbarItem, XButton, Group, GroupTitle, Cell, Card, Alert } from 'vux'
+import { ViewBox, Tabbar, TabbarItem, XButton, Group, GroupTitle, Cell, Card, Alert, XSwitch } from 'vux'
 import axios from 'axios'
 import Global from '@/components/Global.vue'
 
@@ -77,38 +42,76 @@ export default {
     GroupTitle,
     Cell,
     Card,
-    Alert
+    Alert,
+    XSwitch
   },
   data () {
     return {
-      summaryIncome: {}
+      signatureSwitch: {}
     }
   },
   created () {
-    this.getSummaryIncome()
+    this.querySignatureSwitch()
   },
   methods: {
-    getSummaryIncome () {
-      // Indicator.open('正在登陆，请稍后...');
-      // axios.defaults.timeout = 2000
+    // 查询签名开关设置
+    querySignatureSwitch () {
       axios({
-        method: 'get',
+        method: 'post',
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        url: Global.serverUrl + 'income/querySummaryIncome'
-      }).then((data) => {
-        console.log(data)
-        console.log(data.data)
-        this.summaryIncome = data.data
-        // return data.data
+        url: Global.serverUrl + '/setting/querySignatureSwitch'
+      }).then((response) => {
+        console.log(response)
+        console.log(response.data)
+        if (response.data.code !== '0') {
+          this.$vux.toast.show({
+            text: response.data.message,
+            type: 'text'
+          })
+        } else {
+          this.signatureSwitch = response.data.data.subtypeValue
+        }
       }).catch(() => {
-        // Indicator.close();
-        // Toast({
-        //   message: '登陆失败',
-        //   position: 'center',
-        //   duration: 3000
-        // });
+        this.$vux.toast.show({
+          text: '系统异常',
+          type: 'warn'
+        })
+      })
+    },
+    // 设置签名开关
+    configSignatureSwitch () {
+      console.log('111')
+      let userData = {
+        signatureSwitchStatus: this.signatureSwitch
+      }
+      axios({
+        method: 'post',
+        headers: {
+          'Content-type': 'application/json;charset=UTF-8'
+        },
+        data: userData,
+        url: Global.serverUrl + '/setting/signatureSwitch'
+      }).then((response) => {
+        console.log(response)
+        console.log(response.data)
+        if (response.data.code !== '0') {
+          this.$vux.toast.show({
+            text: response.data.message,
+            type: 'text'
+          })
+        } else {
+          this.$vux.toast.show({
+            text: response.data.message,
+            type: 'text'
+          })
+        }
+      }).catch(() => {
+        this.$vux.toast.show({
+          text: '系统异常',
+          type: 'warn'
+        })
       })
     }
   }
@@ -116,15 +119,6 @@ export default {
 </script>
 
 <style>
-  .card-demo-flex {
-    display: flex;
-  }
-  .card-demo-content01 {
-    padding: 10px 0;
-  }
-  .card-padding {
-    padding: 15px;
-  }
   .card-demo-flex > div {
     flex: 1;
     text-align: center;

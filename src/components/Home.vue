@@ -30,6 +30,17 @@
       </div>
     </view-box>
 
+    <tabbar slot="bottom" class="tabbar" style="position: fixed">
+      <tabbar-item selected>
+        <img slot="icon" src="../assets/icon_nav_article.png">
+        <span slot="label">淘口令</span>
+      </tabbar-item>
+      <tabbar-item link="/income/summaryIncome">
+        <img slot="icon" src="../assets/icon_nav_cell.png">
+        <span slot="label">设置</span>
+      </tabbar-item>
+    </tabbar>
+
   </div>
 </template>
 
@@ -69,7 +80,6 @@ export default {
         oriString: this.reqParam.oriString,
         targetString: this.reqParam.targetString
       }
-
       axios({
         method: 'post',
         headers: {
