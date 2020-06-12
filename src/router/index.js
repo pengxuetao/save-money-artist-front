@@ -11,6 +11,7 @@ import CurrentIncomePolicy from '@/components/income/CurrentIncomePolicy'
 import LowerIncomePolicy from '@/components/income/LowerIncomePolicy'
 import MyChannel from '@/components/channel/MyChannel'
 import AddChannel from '@/components/channel/AddChannel'
+import EditSignature from '@/components/channel/EditSignature'
 import ChannelListDetail from '@/components/channel/ChannelListDetail'
 import ChannelProfileDetail from '@/components/channel/ChannelProfileDetail'
 import ChannelCurrentIncomePolicy from '@/components/channel/ChannelCurrentIncomePolicy'
@@ -76,6 +77,11 @@ export default new Router({
       path: '/channel/addChannel',
       name: 'AddChannel',
       component: AddChannel
+    },
+    {
+      path: '/channel/editSignature/:id',
+      name: 'EditSignature',
+      component: EditSignature
     },
     {
       path: '/channel/channelListDetail',
