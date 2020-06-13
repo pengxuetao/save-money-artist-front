@@ -10,7 +10,9 @@
         </box>
         <group title="签名">
           <div v-for="item in userSignatureList">
-            <cell :title="item.title" @click.native="goToModifyUserSignature(item.id)" is-link></cell>
+            <cell :title="item.title" @click.native="goToModifyUserSignature(item.id)" is-link>
+              <badge v-if="item.isDefault" text="默认"></badge>
+            </cell>
           </div>
         </group>
       </div>
@@ -29,7 +31,7 @@
 </template>
 
 <script>
-import { ViewBox, Tabbar, TabbarItem, XButton, Group, GroupTitle, Cell, Card, Alert, XSwitch, Box } from 'vux'
+import { ViewBox, Tabbar, TabbarItem, XButton, Group, GroupTitle, Cell, Card, Alert, XSwitch, Box, Badge } from 'vux'
 import axios from 'axios'
 import Global from '@/components/Global.vue'
 
@@ -48,7 +50,8 @@ export default {
     Card,
     Alert,
     XSwitch,
-    Box
+    Box,
+    Badge
   },
   data () {
     return {
