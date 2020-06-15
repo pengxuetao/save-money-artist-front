@@ -8,9 +8,9 @@
           <x-textarea title="" placeholder="内容" v-model="userSignature.content" autosize></x-textarea>
         </group>
         <box gap="10px 10px">
-          <x-button type="primary" @click.native="modifyUserSignature">保存</x-button>
-          <x-button type="primary" @click.native="configDefaultUserSignature">设置默认签名</x-button>
-          <x-button type="warn" @click.native="openDeleteUserSignature">删除</x-button>
+          <x-button plain type="primary" style="border-radius:99px;" @click.native="modifyUserSignature">保存</x-button>
+          <x-button plain type="primary" style="border-radius:99px;" :disabled="userSignature.isDefault===1" @click.native="configDefaultUserSignature">设置默认签名</x-button>
+          <x-button plain type="warn" style="border-radius:99px;" @click.native="openDeleteUserSignature">删除</x-button>
         </box>
         <div v-transfer-dom>
           <confirm v-model="deleteShow"
@@ -141,6 +141,7 @@ export default {
             text: '设置成功',
             type: 'text'
           })
+          location.reload()
         }
       }).catch(() => {
         this.$vux.toast.show({

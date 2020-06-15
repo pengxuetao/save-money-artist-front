@@ -1,9 +1,5 @@
 <template>
   <div>
-    <div class="vux-demo">
-      <img class="logo" src="../assets/frog.png" @click="easterEgg">
-    </div>
-
     <view-box ref="viewBox">
       <div>
         <form>
@@ -16,7 +12,7 @@
           </group>
         </form>
         <box gap="10px 10px">
-          <x-button type="primary" @click.native="convert()">转换</x-button>
+          <x-button plain type="primary" style="border-radius:99px;" @click.native="convert()">转换</x-button>
         </box>
         <div class="img-div">
           <img class="convert" src="../assets/convert.png">
@@ -25,7 +21,7 @@
           <x-textarea title="" v-model="myResult"></x-textarea>
         </group>
         <box gap="10px 10px">
-          <x-button class="copy-code-button" :data-clipboard-text="myResult" type="warn" @click.native="oneKeyCopy()">一键复制</x-button>
+          <x-button class="copy-code-button" :data-clipboard-text="myResult" plain type="warn" style="border-radius:99px;" @click.native="oneKeyCopy()">一键复制</x-button>
         </box>
       </div>
     </view-box>
@@ -69,8 +65,7 @@ export default {
   data () {
     return {
       reqParam: {},
-      myResult: '',
-      eggCount: 0
+      myResult: ''
     }
   },
   methods: {
@@ -119,33 +114,14 @@ export default {
         // 释放内存
         clipboard.destroy()
       })
-    },
-    // 彩蛋
-    easterEgg () {
-      this.eggCount ++
-      if (this.eggCount >= 5) {
-        this.$vux.toast.show({
-          text: '呱~~~~~',
-          type: 'text',
-          position: 'top'
-        })
-        this.eggCount = 0
-      }
     }
   }
 }
 </script>
 
 <style>
-.vux-demo {
-  text-align: center;
-}
 .img-div {
   text-align: center;
-}
-.logo {
-  width: 120px;
-  height: 120px;
 }
 .plus {
   width: 30px;

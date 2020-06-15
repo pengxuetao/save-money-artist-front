@@ -1,17 +1,23 @@
 <template>
   <div style="height:100%;">
+    <div class="vux-demo">
+      <img class="logo" src="../../assets/frog.png" @click="easterEgg">
+      <h3>省钱艺术家</h3>
+      <h6 style="color: #808080;">v1.0.1</h6>
+    </div>
+
     <view-box ref="viewBox" body-padding-bottom="150px">
       <div>
         <group title="设置">
           <!--<x-switch title="签名开关" :value-map="['0', '1']" v-model="signatureSwitch" @on-change="configSignatureSwitch"></x-switch>-->
         </group>
         <box gap="10px 10px">
-          <x-button type="primary" @click.native="goToAddUserSignature">新增签名</x-button>
+          <x-button plain type="primary" style="border-radius:99px;" @click.native="goToAddUserSignature">新增签名</x-button>
         </box>
         <group title="签名">
           <div v-for="item in userSignatureList">
             <cell :title="item.title" @click.native="goToModifyUserSignature(item.id)" is-link>
-              <badge v-if="item.isDefault" text="默认"></badge>
+              <badge id="defaultBadge" v-if="item.isDefault" text="默认"></badge>
             </cell>
           </div>
         </group>
@@ -56,7 +62,8 @@ export default {
   data () {
     return {
       signatureSwitch: {},
-      userSignatureList: []
+      userSignatureList: [],
+      eggCount: 0
     }
   },
   created () {
@@ -161,12 +168,32 @@ export default {
       this.$router.push({
         path: '/channel/editSignature/' + id
       })
+    },
+    // 彩蛋
+    easterEgg () {
+      this.eggCount ++
+      if (this.eggCount >= 5) {
+        this.$vux.toast.show({
+          text: '呱~~~~~',
+          type: 'text',
+          position: 'top'
+        })
+        this.eggCount = 0
+      }
     }
   }
 }
 </script>
 
 <style>
+  .vux-demo {
+    text-align: center;
+    margin-top:46px;
+  }
+  .logo {
+    width: 120px;
+    height: 120px;
+  }
   .card-demo-flex > div {
     flex: 1;
     text-align: center;
@@ -181,5 +208,8 @@ export default {
     bottom: 0;
     z-index: 999;
     width: 100%
+  }
+  #defaultBadge {
+    background: #FF8C00;
   }
 </style>
