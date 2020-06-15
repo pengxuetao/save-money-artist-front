@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { ViewBox, XHeader, Tabbar, TabbarItem, XInput, XButton, Group, Cell, Alert, AlertModule, Box, XTextarea } from 'vux'
+import { ViewBox, XHeader, Tabbar, TabbarItem, XInput, XButton, Group, Cell, Alert, Box, XTextarea } from 'vux'
 import axios from 'axios'
 import Global from '@/components/Global.vue'
 
@@ -58,13 +58,18 @@ export default {
         data: userSignature,
         url: Global.serverUrl + '/setting/addUserSignature'
       }).then((response) => {
-        AlertModule.show({
-          title: '操作结果',
-          content: response.data.message,
-          onHide () {
-            self.$router.back()
-          }
-        })
+        if (response.data.code !== '0') {
+          this.$vux.toast.show({
+            text: response.data.message,
+            type: 'warn'
+          })
+        } else {
+          this.$vux.toast.show({
+            text: '保存成功',
+            type: 'text'
+          })
+          self.$router.back()
+        }
       }).catch(() => {
         this.$vux.toast.show({
           text: '系统异常',

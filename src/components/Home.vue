@@ -88,8 +88,6 @@ export default {
         data: userData,
         url: Global.serverUrl + '/taopassword/convert'
       }).then((response) => {
-        console.log(response)
-        console.log(response.data)
         if (response.data.code !== '0') {
           this.$vux.toast.show({
             text: response.data.message,
