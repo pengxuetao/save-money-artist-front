@@ -8,7 +8,7 @@
           <x-textarea title="" placeholder="内容" v-model="userSignature.content" autosize></x-textarea>
         </group>
         <box gap="10px 10px">
-          <x-button type="primary" @click.native="addUserSignature">保存</x-button>
+          <x-button plain type="primary" style="border-radius:99px;" @click.native="addUserSignature">保存</x-button>
         </box>
       </div>
     </view-box>
