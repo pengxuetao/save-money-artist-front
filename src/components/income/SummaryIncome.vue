@@ -3,7 +3,7 @@
     <div class="vux-demo">
       <img class="logo" src="../../assets/frog.png" @click="easterEgg">
       <h3>省钱艺术家</h3>
-      <h6 style="color: #808080;">v1.0.1</h6>
+      <h6 style="color: #808080;">v1.0.2</h6>
     </div>
 
     <view-box ref="viewBox" body-padding-bottom="150px">
