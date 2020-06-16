@@ -9,7 +9,7 @@
     <view-box ref="viewBox" body-padding-bottom="150px">
       <div>
         <group title="设置">
-          <!--<x-switch title="签名开关" :value-map="['0', '1']" v-model="signatureSwitch" @on-change="configSignatureSwitch"></x-switch>-->
+          <x-switch title="签名开关" :value-map="['0', '1']" v-model="signatureSwitch" prevent-default @on-click="configSignatureSwitch"></x-switch>
         </group>
         <box gap="10px 10px">
           <x-button plain type="primary" style="border-radius:99px;" @click.native="goToAddUserSignature">新增签名</x-button>
@@ -98,31 +98,21 @@ export default {
       })
     },
     // 设置签名开关
-    configSignatureSwitch () {
-      console.log('111')
-      let userData = {
-        signatureSwitchStatus: this.signatureSwitch
-      }
+    configSignatureSwitch (newVal, oldVal) {
       axios({
         method: 'post',
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        data: userData,
         url: Global.serverUrl + '/setting/signatureSwitch'
       }).then((response) => {
-        console.log(response)
-        console.log(response.data)
         if (response.data.code !== '0') {
           this.$vux.toast.show({
             text: response.data.message,
             type: 'text'
           })
         } else {
-          this.$vux.toast.show({
-            text: response.data.message,
-            type: 'text'
-          })
+          this.signatureSwitch = newVal === true ? '1' : '0'
         }
       }).catch(() => {
         this.$vux.toast.show({
