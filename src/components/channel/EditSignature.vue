@@ -66,10 +66,7 @@ export default {
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        params: {
-          id: this.$route.params.id
-        },
-        url: Global.serverUrl + '/setting/queryUserSignature'
+        url: Global.serverUrl + '/setting/signature/' + this.$route.params.id
       }).then((response) => {
         if (response.data.code !== '0') {
           this.$vux.toast.show({
@@ -94,12 +91,12 @@ export default {
         content: this.userSignature.content
       }
       axios({
-        method: 'post',
+        method: 'put',
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
         data: userSignature,
-        url: Global.serverUrl + '/setting/modifyUserSignature'
+        url: Global.serverUrl + '/setting/signature'
       }).then((response) => {
         if (response.data.code !== '0') {
           this.$vux.toast.show({
@@ -122,14 +119,11 @@ export default {
     // 设置默认用户签名
     configDefaultUserSignature () {
       axios({
-        method: 'post',
+        method: 'put',
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        params: {
-          id: this.userSignature.id
-        },
-        url: Global.serverUrl + '/setting/configDefaultUserSignature'
+        url: Global.serverUrl + '/setting/signature/' + this.$route.params.id + '/default'
       }).then((response) => {
         if (response.data.code !== '0') {
           this.$vux.toast.show({
@@ -158,14 +152,11 @@ export default {
     deleteUserSignature () {
       let self = this
       axios({
-        method: 'post',
+        method: 'delete',
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        params: {
-          id: this.userSignature.id
-        },
-        url: Global.serverUrl + '/setting/deleteUserSignature'
+        url: Global.serverUrl + '/setting/signature/' + this.$route.params.id
       }).then((response) => {
         if (response.data.code !== '0') {
           this.$vux.toast.show({

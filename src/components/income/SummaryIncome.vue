@@ -74,11 +74,11 @@ export default {
     // 查询签名开关设置
     querySignatureSwitch () {
       axios({
-        method: 'post',
+        method: 'get',
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        url: Global.serverUrl + '/setting/querySignatureSwitch'
+        url: Global.serverUrl + '/setting/signature/switch'
       }).then((response) => {
         console.log(response)
         console.log(response.data)
@@ -100,11 +100,11 @@ export default {
     // 设置签名开关
     configSignatureSwitch (newVal, oldVal) {
       axios({
-        method: 'post',
+        method: 'put',
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        url: Global.serverUrl + '/setting/signatureSwitch'
+        url: Global.serverUrl + '/setting/signature/switch'
       }).then((response) => {
         if (response.data.code !== '0') {
           this.$vux.toast.show({
@@ -134,7 +134,7 @@ export default {
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        url: Global.serverUrl + '/setting/queryUserSignatureList'
+        url: Global.serverUrl + '/setting/signature/list'
       }).then((response) => {
         console.log(response)
         console.log(response.data)

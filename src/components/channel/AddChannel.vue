@@ -56,7 +56,7 @@ export default {
           'Content-type': 'application/json;charset=UTF-8'
         },
         data: userSignature,
-        url: Global.serverUrl + '/setting/addUserSignature'
+        url: Global.serverUrl + '/setting/signature'
       }).then((response) => {
         if (response.data.code !== '0') {
           this.$vux.toast.show({
