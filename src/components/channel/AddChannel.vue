@@ -50,6 +50,13 @@ export default {
         title: this.userSignature.title,
         content: this.userSignature.content
       }
+      if (userSignature.title == null || userSignature.content == null || userSignature.title === '' || userSignature.content === '') {
+        this.$vux.toast.show({
+          text: '输入内容不能为空',
+          type: 'warn'
+        })
+        return
+      }
       axios({
         method: 'post',
         headers: {
