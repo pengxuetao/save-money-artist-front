@@ -1,35 +1,35 @@
 <template>
   <div style="height:100%;">
-    <view-box ref="viewBox" body-padding-bottom="55px">
-      <div>
-        <panel type="5" :list="panelBodylist" @on-img-error="onImgError()"></panel>
-        <group title="设置">
-          <cell title="我的资料" link="/profile/myProfileDetail"></cell>
-          <cell title="修改密码" link="/profile/changePassword"></cell>
-          <cell title="联系客服" is-link></cell>
-          <cell title="关于我们" is-link></cell>
-          <cell title="退出账号" is-link @click.native="openLogout"></cell>
-        </group>
+    <div class="vux-demo">
+      <img class="logo" src="../../assets/frog.png" @click="easterEgg">
+      <h3>省钱艺术家</h3>
+      <h6 style="color: #808080;">v1.0.2</h6>
+    </div>
 
-        <div v-transfer-dom>
-          <confirm v-model="logoutShow"
-                   @on-confirm="logoutConfirm">
-            <p style="text-align:center;">{{ '是否确认退出当前账号?' }}</p>
-          </confirm>
-        </div>
+    <view-box ref="viewBox" body-padding-bottom="150px">
+      <div>
+        <group title="设置">
+          <x-switch title="签名开关" :value-map="['0', '1']" v-model="signatureSwitch" prevent-default @on-click="configSignatureSwitch"></x-switch>
+        </group>
+        <box gap="10px 10px">
+          <x-button plain type="primary" style="border-radius:99px;" @click.native="goToAddUserSignature">新增签名</x-button>
+        </box>
+        <group title="签名">
+          <div v-for="item in userSignatureList">
+            <cell :title="item.title" @click.native="goToModifyUserSignature(item.id)" is-link>
+              <badge id="defaultBadge" v-if="item.isDefault" text="默认"></badge>
+            </cell>
+          </div>
+        </group>
       </div>
       <tabbar slot="bottom" class="tabbar" style="position: fixed">
-        <tabbar-item>
-          <img slot="icon" src="../../assets/icon_nav_msg.png">
-          <span slot="label">资讯</span>
-        </tabbar-item>
-        <tabbar-item link="/income/summaryIncome">
+        <tabbar-item link="/">
           <img slot="icon" src="../../assets/icon_nav_article.png">
-          <span slot="label">收益</span>
+          <span slot="label">淘口令</span>
         </tabbar-item>
         <tabbar-item selected>
           <img slot="icon" src="../../assets/icon_nav_cell.png">
-          <span slot="label">我的</span>
+          <span slot="label">设置</span>
         </tabbar-item>
       </tabbar>
     </view-box>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { ViewBox, Tabbar, TabbarItem, XButton, Group, Cell, Alert, Confirm, Panel, TransferDomDirective as TransferDom } from 'vux'
+import { ViewBox, Tabbar, TabbarItem, XButton, Group, GroupTitle, Cell, Card, Alert, XSwitch, Box, Badge } from 'vux'
 import axios from 'axios'
 import Global from '@/components/Global.vue'
 
@@ -45,85 +45,161 @@ axios.defaults.withCredentials = true
 
 export default {
   name: 'MyProfile',
-  directives: {
-    TransferDom
-  },
   components: {
     ViewBox,
     Tabbar,
     TabbarItem,
     XButton,
     Group,
+    GroupTitle,
     Cell,
+    Card,
     Alert,
-    Confirm,
-    Panel
+    XSwitch,
+    Box,
+    Badge
   },
   data () {
     return {
-      myProfileInfo: {},
-      logoutShow: false,
-      panelBodylist: []
+      signatureSwitch: {},
+      userSignatureList: [],
+      eggCount: 0
     }
   },
   created () {
-    this.getMyProfileInfo()
+    this.querySignatureSwitch()
+    this.queryUserSignatureList()
   },
   methods: {
-    getMyProfileInfo () {
-      // Indicator.open('正在登陆，请稍后...');
-      // axios.defaults.timeout = 2000
+    // 查询签名开关设置
+    querySignatureSwitch () {
       axios({
         method: 'get',
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        url: Global.serverUrl + 'user/queryCurrentUser'
-      }).then((data) => {
-        console.log(data)
-        console.log(data.data)
-        this.myProfileInfo = data.data
-        this.panelBodylist = [{
-          src: 'https://avatars0.githubusercontent.com/u/559179?s=180&v=4',
-          title: this.myProfileInfo.realName,
-          desc: '手机号: ' + this.myProfileInfo.mobile
-        }]
-        // return data.data
+        url: Global.serverUrl + '/setting/signature/switch'
+      }).then((response) => {
+        console.log(response)
+        console.log(response.data)
+        if (response.data.code !== '0') {
+          this.$vux.toast.show({
+            text: response.data.message,
+            type: 'text'
+          })
+        } else {
+          this.signatureSwitch = response.data.data.subtypeValue
+        }
       }).catch(() => {
-        // Indicator.close();
-        // Toast({
-        //   message: '登陆失败',
-        //   position: 'center',
-        //   duration: 3000
-        // });
+        this.$vux.toast.show({
+          text: '系统异常',
+          type: 'warn'
+        })
       })
     },
-    // 打开退出账号弹框
-    openLogout () {
-      this.logoutShow = true
+    // 设置签名开关
+    configSignatureSwitch (newVal, oldVal) {
+      axios({
+        method: 'put',
+        headers: {
+          'Content-type': 'application/json;charset=UTF-8'
+        },
+        url: Global.serverUrl + '/setting/signature/switch'
+      }).then((response) => {
+        if (response.data.code !== '0') {
+          this.$vux.toast.show({
+            text: response.data.message,
+            type: 'text'
+          })
+        } else {
+          this.signatureSwitch = newVal === true ? '1' : '0'
+        }
+      }).catch(() => {
+        this.$vux.toast.show({
+          text: '系统异常',
+          type: 'warn'
+        })
+      })
     },
-    // 退出账号
-    logoutConfirm () {
-      this.$router.push('/')
+    // 跳转新增用户签名页面
+    goToAddUserSignature () {
+      this.$router.push({
+        path: '/profile/addSignature'
+      })
     },
-    // Panel加载图片错误时触发的事件
-    onImgError () {
-      this.panelBodylist = [{
-        src: 'https://avatars0.githubusercontent.com/u/31625193?s=180&v=4',
-        title: this.myProfileInfo.realName,
-        desc: '手机号: ' + this.myProfileInfo.mobile
-      }]
+    // 查询用户签名列表
+    queryUserSignatureList () {
+      axios({
+        method: 'get',
+        headers: {
+          'Content-type': 'application/json;charset=UTF-8'
+        },
+        url: Global.serverUrl + '/setting/signature/list'
+      }).then((response) => {
+        console.log(response)
+        console.log(response.data)
+        if (response.data.code !== '0') {
+          this.$vux.toast.show({
+            text: response.data.message,
+            type: 'text'
+          })
+        } else {
+          this.userSignatureList = response.data.data
+        }
+      }).catch(() => {
+        this.$vux.toast.show({
+          text: '系统异常',
+          type: 'warn'
+        })
+      })
+    },
+    // 跳转修改用户签名页面
+    goToModifyUserSignature (id) {
+      this.$router.push({
+        path: '/profile/editSignature/' + id
+      })
+    },
+    // 彩蛋
+    easterEgg () {
+      this.eggCount ++
+      if (this.eggCount >= 5) {
+        this.$vux.toast.show({
+          text: '呱~~~~~',
+          type: 'text',
+          position: 'top'
+        })
+        this.eggCount = 0
+      }
     }
   }
 }
 </script>
 
 <style>
+  .vux-demo {
+    text-align: center;
+    margin-top:46px;
+  }
+  .logo {
+    width: 120px;
+    height: 120px;
+  }
+  .card-demo-flex > div {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+  }
+  .card-demo-flex span {
+    color: #f74c31;
+  }
   .tabbar {
     position: fixed;
     left: 0;
     bottom: 0;
     z-index: 999;
     width: 100%
+  }
+  #defaultBadge {
+    background: #FF8C00;
   }
 </style>

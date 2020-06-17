@@ -3,19 +3,9 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Home from '@/components/Home'
-import SummaryIncome from '@/components/income/SummaryIncome'
-import IncomeDetail from '@/components/income/IncomeDetail'
-import IncomeRecordList from '@/components/income/IncomeRecordList'
-import IncomeRecordListDetail from '@/components/income/IncomeRecordListDetail'
-import CurrentIncomePolicy from '@/components/income/CurrentIncomePolicy'
-import LowerIncomePolicy from '@/components/income/LowerIncomePolicy'
-import MyChannel from '@/components/channel/MyChannel'
-import AddChannel from '@/components/channel/AddChannel'
-import EditSignature from '@/components/channel/EditSignature'
-import ChannelListDetail from '@/components/channel/ChannelListDetail'
-import ChannelProfileDetail from '@/components/channel/ChannelProfileDetail'
-import ChannelCurrentIncomePolicy from '@/components/channel/ChannelCurrentIncomePolicy'
 import MyProfile from '@/components/profile/MyProfile'
+import AddSignature from '@/components/profile/AddSignature'
+import EditSignature from '@/components/profile/EditSignature'
 import MyProfileDetail from '@/components/profile/MyProfileDetail'
 import ChangePassword from '@/components/profile/ChangePassword'
 
@@ -39,64 +29,14 @@ export default new Router({
       component: Register
     },
     {
-      path: '/income/summaryIncome',
-      name: 'SummaryIncome',
-      component: SummaryIncome
+      path: '/profile/addSignature',
+      name: 'AddSignature',
+      component: AddSignature
     },
     {
-      path: '/income/incomeDetail',
-      name: 'IncomeDetail',
-      component: IncomeDetail
-    },
-    {
-      path: '/income/incomeRecordList',
-      name: 'IncomeRecordList',
-      component: IncomeRecordList
-    },
-    {
-      path: '/income/incomeRecordListDetail',
-      name: 'IncomeRecordListDetail',
-      component: IncomeRecordListDetail
-    },
-    {
-      path: '/income/currentIncomePolicy',
-      name: 'CurrentIncomePolicy',
-      component: CurrentIncomePolicy
-    },
-    {
-      path: '/income/lowerIncomePolicy',
-      name: 'LowerIncomePolicy',
-      component: LowerIncomePolicy
-    },
-    {
-      path: '/channel/myChannel',
-      name: 'MyChannel',
-      component: MyChannel
-    },
-    {
-      path: '/channel/addChannel',
-      name: 'AddChannel',
-      component: AddChannel
-    },
-    {
-      path: '/channel/editSignature/:id',
+      path: '/profile/editSignature/:id',
       name: 'EditSignature',
       component: EditSignature
-    },
-    {
-      path: '/channel/channelListDetail',
-      name: 'ChannelListDetail',
-      component: ChannelListDetail
-    },
-    {
-      path: '/channel/channelProfileDetail',
-      name: 'ChannelProfileDetail',
-      component: ChannelProfileDetail
-    },
-    {
-      path: '/channel/channelCurrentIncomePolicy',
-      name: 'ChannelCurrentIncomePolicy',
-      component: ChannelCurrentIncomePolicy
     },
     {
       path: '/profile/myProfile',

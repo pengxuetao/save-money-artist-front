@@ -23,7 +23,7 @@ import Global from '@/components/Global.vue'
 axios.defaults.withCredentials = true
 
 export default {
-  name: 'AddChannel',
+  name: 'AddSignature',
   components: {
     ViewBox,
     XHeader,

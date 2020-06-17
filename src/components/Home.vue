@@ -31,7 +31,7 @@
         <img slot="icon" src="../assets/icon_nav_article.png">
         <span slot="label">淘口令</span>
       </tabbar-item>
-      <tabbar-item link="/income/summaryIncome">
+      <tabbar-item link="/profile/myProfile">
         <img slot="icon" src="../assets/icon_nav_cell.png">
         <span slot="label">设置</span>
       </tabbar-item>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem, Group, Cell, Alert, ViewBox, XHeader, XInput, XButton, Box, XTextarea } from 'vux'
+import { Tabbar, TabbarItem, Group, Cell, ViewBox, XInput, XButton, Box, XTextarea } from 'vux'
 import axios from 'axios'
 import Global from '@/components/Global.vue'
 import Clipboard from 'clipboard'
@@ -54,9 +54,7 @@ export default {
     TabbarItem,
     Group,
     Cell,
-    Alert,
     ViewBox,
-    XHeader,
     XInput,
     XButton,
     Box,
@@ -100,7 +98,8 @@ export default {
     },
     // 一键复制
     oneKeyCopy () {
-      let clipboard = new Clipboard('.copy-code-button') // 这里可以理解为选择器，选择上面的复制按钮
+      // 这里可以理解为选择器，选择上面的复制按钮
+      let clipboard = new Clipboard('.copy-code-button')
       clipboard.on('success', e => {
         this.$vux.toast.show({
           text: '复制成功',
