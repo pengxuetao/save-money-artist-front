@@ -28,11 +28,11 @@
 
     <tabbar slot="bottom" class="tabbar" style="position: fixed">
       <tabbar-item selected>
-        <img slot="icon" src="../assets/icon_nav_article.png">
+        <img slot="icon" src="../assets/taobao.png">
         <span slot="label">淘口令</span>
       </tabbar-item>
       <tabbar-item link="/profile/myProfile">
-        <img slot="icon" src="../assets/icon_nav_cell.png">
+        <img slot="icon" src="../assets/profile.png">
         <span slot="label">我的</span>
       </tabbar-item>
     </tabbar>
