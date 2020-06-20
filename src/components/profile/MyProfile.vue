@@ -29,7 +29,7 @@
         </tabbar-item>
         <tabbar-item selected>
           <img slot="icon" src="../../assets/icon_nav_cell.png">
-          <span slot="label">设置</span>
+          <span slot="label">我的</span>
         </tabbar-item>
       </tabbar>
     </view-box>
@@ -78,7 +78,7 @@ export default {
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        url: Global.serverUrl + '/setting/signature/switch'
+        url: Global.serverUrl + '/profile/signature/switch'
       }).then((response) => {
         console.log(response)
         console.log(response.data)
@@ -104,7 +104,7 @@ export default {
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        url: Global.serverUrl + '/setting/signature/switch'
+        url: Global.serverUrl + '/profile/signature/switch'
       }).then((response) => {
         if (response.data.code !== '0') {
           this.$vux.toast.show({
@@ -134,7 +134,7 @@ export default {
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        url: Global.serverUrl + '/setting/signature/list'
+        url: Global.serverUrl + '/profile/signature/list'
       }).then((response) => {
         console.log(response)
         console.log(response.data)

@@ -66,7 +66,7 @@ export default {
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        url: Global.serverUrl + '/setting/signature/' + this.$route.params.id
+        url: Global.serverUrl + '/profile/signature/' + this.$route.params.id
       }).then((response) => {
         if (response.data.code !== '0') {
           this.$vux.toast.show({
@@ -103,7 +103,7 @@ export default {
           'Content-type': 'application/json;charset=UTF-8'
         },
         data: userSignature,
-        url: Global.serverUrl + '/setting/signature'
+        url: Global.serverUrl + '/profile/signature'
       }).then((response) => {
         if (response.data.code !== '0') {
           this.$vux.toast.show({
@@ -130,7 +130,7 @@ export default {
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        url: Global.serverUrl + '/setting/signature/' + this.$route.params.id + '/default'
+        url: Global.serverUrl + '/profile/signature/' + this.$route.params.id + '/default'
       }).then((response) => {
         if (response.data.code !== '0') {
           this.$vux.toast.show({
@@ -163,7 +163,7 @@ export default {
         headers: {
           'Content-type': 'application/json;charset=UTF-8'
         },
-        url: Global.serverUrl + '/setting/signature/' + this.$route.params.id
+        url: Global.serverUrl + '/profile/signature/' + this.$route.params.id
       }).then((response) => {
         if (response.data.code !== '0') {
           this.$vux.toast.show({

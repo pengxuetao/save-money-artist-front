@@ -33,7 +33,7 @@
       </tabbar-item>
       <tabbar-item link="/profile/myProfile">
         <img slot="icon" src="../assets/icon_nav_cell.png">
-        <span slot="label">设置</span>
+        <span slot="label">我的</span>
       </tabbar-item>
     </tabbar>
 
